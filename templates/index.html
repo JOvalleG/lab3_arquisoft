@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SWARCH</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <h1>PRODUCT</h1>
+
+    <!-- Formulario para crear un nuevo producto -->
+    <form method="POST" action="/products">
+      <label for="name">Nombre:</label><br />
+      <input type="text" id="name" name="name" required /><br />
+      <label for="description">Descripción:</label><br />
+      <textarea id="description" name="description"></textarea><br />
+      <button type="submit">Crear</button>
+    </form>
+
+    <!-- Lista de productos -->
+    <h2>Lista de Productos</h2>
+    <ul>
+      {% for product in products %}
+      <li>
+        {{ product.name }} - {{ product.description }}
+        <button
+          onclick="updateForm({{ product.id }}, '{{ product.name }}', '{{ product.description }}')"
+        >
+          Modificar
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Formulario para actualizar un producto -->
+    <h2>Actualizar Producto</h2>
+    <form method="POST" action="/products/update" id="update-form">
+      <input type="hidden" name="_method" value="PUT" />
+      <input type="hidden" id="update-id" name="product_id" required /><br />
+      <label for="update-name">Nombre:</label><br />
+      <input type="text" id="update-name" name="name" required /><br />
+      <label for="update-description">Descripción:</label><br />
+      <textarea id="update-description" name="description"></textarea><br />
+      <button type="submit">Actualizar</button>
+    </form>
+
+    <script>
+      function updateForm(id, name, description) {
+        document.getElementById("update-id").value = id;
+        document.getElementById("update-name").value = name;
+        document.getElementById("update-description").value = description;
+      }
+    </script>
+  </body>
+</html>
